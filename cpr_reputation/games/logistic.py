@@ -1,13 +1,10 @@
 from typing import Sequence
 from cpr_reputation.abstract import CPRProblem, Resource
 
+
 class LogisticReplenishment(Resource):
     def __init__(
-            self,
-            name: str,
-            amount: float,
-            rate: float,
-            maximum: float,
+        self, name: str, amount: float, rate: float, maximum: float,
     ):
         """
         amount: in [0,1], fraction of maximum
@@ -25,13 +22,9 @@ class LogisticReplenishment(Resource):
         """dx/dt = r * x * (maximum - x)"""
         return self.rate * self.amount * (self.maximum - self.amount)
 
+
 class OneResourceWLogisticReplenishment(CPRProblem):
-    def __init__(
-            self,
-            name: str,
-            resource: Resource,
-            num_appropriators: int
-    ):
+    def __init__(self, name: str, resource: Resource, num_appropriators: int):
         super().__init__(name, resource, num_appropriators)
         assert hasattr(resource, "maximum")
         assert not isinstance(resource, Sequence)

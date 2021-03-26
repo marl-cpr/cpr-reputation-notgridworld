@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Sequence, Union, List
+from dataclasses import dataclass
+from typing import Sequence, Union
+
 
 @dataclass
 class Resource(ABC):
@@ -22,14 +23,14 @@ class Appropriator:
     amount: float = 0
 
 
-
 class CPRProblem(ABC):
     """Common Pool Resource Problem with Reputation"""
+
     def __init__(
-            self,
-            name: str,
-            resource: Union[Resource, Sequence[Resource]],
-            num_appropriators: int
+        self,
+        name: str,
+        resource: Union[Resource, Sequence[Resource]],
+        num_appropriators: int,
     ):
         self.name = name
         self.resource = resource
@@ -37,12 +38,15 @@ class CPRProblem(ABC):
         self.appropriator_names = [f"Appropriator{k}" for k in range(num_appropriators)]
         self.appropriators = {
             appropriator_id: Appropriator(appropriator_id)
-            for appropriator_id
-            in self.appropriator_names
+            for appropriator_id in self.appropriator_names
         }
-        self.reputation = {appropriator_id: 0. for appropriator_id in self.appropriator_names}
+        self.reputation = {
+            appropriator_id: 0.0 for appropriator_id in self.appropriator_names
+        }
 
     @abstractmethod
-    def process_action(self, appropriator_id: str, action: Union[float, Sequence[float]]) -> float:
+    def process_action(
+        self, appropriator_id: str, action: Union[float, Sequence[float]]
+    ) -> float:
         """Processes action, returns reward"""
         pass
