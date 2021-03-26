@@ -1,0 +1,16 @@
+name: cpr-reputation-nogrid
+channels:
+  - anaconda
+  - conda-forge
+  - pytorch
+dependencies:
+  - python
+  - numpy
+  - pytorch
+  - ray-rllib
+  - black
+  - flake8
+  - pytest
+  - hypothesis
+  - pytype
+  - ninja
