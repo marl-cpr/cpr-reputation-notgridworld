@@ -12,7 +12,7 @@ from gym.spaces import Box
 logistic_defaults_ini = {"name": "fish", "amount": 0.55, "rate": 0.24, "maximum": 100}
 defaults_ini = {
     "name": "One Resource w Logistic Replenishment",
-    "resource": LogisticReplenishment(**logistic_defaults_ini),
+    "resource": (LogisticReplenishment(**logistic_defaults_ini),),
     "num_appropriators": 7,
 }
 

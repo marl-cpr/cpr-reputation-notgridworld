@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Sequence, Union
+from typing import Sequence, Protocol
+
+import numpy as np
 
 
 @dataclass
@@ -8,6 +10,7 @@ class Resource(ABC):
     name: str
     amount: float  # starting amount
 
+    @property
     @abstractmethod
     def increment(self) -> float:
         """You must decorate implementation @property."""
@@ -15,6 +18,11 @@ class Resource(ABC):
 
     def replenish_step(self):
         self.amount += self.increment
+
+
+class ResourceWMax(Resource, Protocol):
+    def maximum(self) -> int:
+        return 0
 
 
 @dataclass
@@ -27,10 +35,7 @@ class CPRProblem(ABC):
     """Common Pool Resource Problem with Reputation"""
 
     def __init__(
-        self,
-        name: str,
-        resource: Union[Resource, Sequence[Resource]],
-        num_appropriators: int,
+        self, name: str, resource: Sequence[Resource], num_appropriators: int,
     ):
         self.name = name
         self.resource = resource
@@ -45,8 +50,6 @@ class CPRProblem(ABC):
         }
 
     @abstractmethod
-    def process_action(
-        self, appropriator_id: str, action: Union[float, Sequence[float]]
-    ) -> float:
+    def process_action(self, appropriator_id: str, action: np.ndarray) -> float:
         """Processes action, returns reward"""
         pass
